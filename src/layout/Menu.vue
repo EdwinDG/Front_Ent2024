@@ -93,6 +93,17 @@
               </q-item-section>
             </div>
           </router-link>
+          <router-link v-if="checkAccess('Contrato')" to="/Contrato">
+            <div class="div">
+              <q-item-section>
+                <i class="fa-solid fa-file-contract"></i>
+              </q-item-section>
+
+              <q-item-section>
+                <h6 style="font-size: 15px; font-weight: 100">Contrato</h6>
+              </q-item-section>
+            </div>
+          </router-link>
           <router-link v-if="checkAccess('TablaFichas')" to="./TablaFichas">
             <div class="div">
               <q-item-section>
@@ -209,6 +220,10 @@
               </q-item-section>
             </div>
           </router-link>
+    
+
+
+
         </q-list>
       </q-scroll-area>
 
@@ -317,6 +332,7 @@ const checkAccess = (ruta) => {
     TablaPedidos: ["admin", "bodega", "instructor"],
     Perfil: ["admin", "bodega", "instructor"],
     TablaHistorial: ["admin", "bodega", "instructor"],
+    Contrato: ["admin", "bodega", "instructor"]
   };
 
   return rolesPermitidos[ruta].includes(rolUsuario);
