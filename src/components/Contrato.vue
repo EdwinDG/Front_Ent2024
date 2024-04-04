@@ -79,7 +79,7 @@
                         <div class="container_input2">
                           <div class="container_input3">
                             <label class="label-input" for="">Codigo:</label>
-                            <q-input color="green" filled v-model="codigodeficha" class="modal_input2" type="number"
+                            <q-input color="green" filled v-model="codigo" class="modal_input2" type="number"
                               lazy-rules :rules="[(val) => !!val || 'Por favor ingrese el codigo de ficha']">
                               <template v-slot:prepend>
                                 <i class="fa fa-code" aria-hidden="true"></i>
@@ -98,21 +98,11 @@
                             </q-input>
                           </div>
   
-                          <div class="container_input3">
-                            <label class="label-input" for="">Nivel de fomacion:</label>
-                            <q-select color="green" filled v-model="niveldeformacion"
-                              :options="opcionesNivelDeFormacionArray" class="modal_input2" type="text" lazy-rules :rules="[
-                                (val) => !!val || 'Por favor ingrese el nivel de formacion.',
-                              ]" hide-bottom-space>
-                              <template v-slot:prepend>
-                                <i class="fa fa-list" aria-hidden="true"></i>
-                              </template>
-                            </q-select>
-                          </div>
+                        
   
                           <div class="container_input3">
                             <label class="label-input" for="">Fecha de inicio:</label>
-                            <q-input color="green" filled v-model="fechainicio" class="modal_input2" type="date" lazy-rules
+                            <q-input color="green" filled v-model="PresupuestoAsignado" class="modal_input2" type="date" lazy-rules
                               :rules="[(val) => !!val || 'Por favor ingrese la fecha de inicio']">
                               <template v-slot:prepend>
                                 <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -138,7 +128,7 @@
   
                           <div class="container_input3">
                             <label class="label-input3" for="">Fecha de finalizacion:</label>
-                            <q-input color="green" filled v-model="fechafin" class="modal_input2" type="date" lazy-rules
+                            <q-input color="green" filled v-model="PresupuestoFin" class="modal_input2" type="date" lazy-rules
                               :rules="[(val) => !!val || 'Por favor ingrese la fecha de finalizacion.']">
                               <template v-slot:prepend>
                                 <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -178,28 +168,28 @@
   import { onMounted } from "vue";
   import { useQuasar } from "quasar";
   import { format } from "date-fns";
-  import { usefichastore } from "../stores/Fichas.js";
-  import { useareastore } from "../stores/Area.js";
-  const fichastore = usefichastore();
-  const areastore = useareastore();
+  import { usecontratostore } from "../stores/Contrato.js";
+
+  const contratostore = usecontratostore();
+  fichastore
   const options = ref([]);
   const $q = useQuasar();
   const fileInput = ref(null);
   const imageUrl = ref("");
   
   let notification;
-  let codigodeficha = ref("");
+  let codigo = ref("");
   let nombre = ref("");
-  let niveldeformacion = ref("");
-  let fechainicio = ref("");
-  let fechafin = ref("");
-  let Area_Id = ref("");
+
+  let PresupuestoAsignado = ref("");
+  let PresupuestoFin = ref("");
   const filter = ref("");
   let text = ref("Agregar Ficha");
   let btnaceptar = ref(false);
   let btnagregar = ref(true);
   let prompt = ref(false);
   const cargando = ref(false);
+  
   function agregar() {
     prompt.value = true;
     xd.value = 0;
@@ -209,17 +199,7 @@
     btnaceptar.value = false;
     btnagregar.value = true;
   }
-  /* const niveldeformacion = ref(null); */
-  const opcionesNivelDeFormacionArray = ref([
-    { label: "Tecnico", value: "opcion1" },
-    { label: "Tecnologo", value: "opcion2" },
-    { label: "Auxiliar", value: "opcion3" },
-    { label: "Operario", value: "opcion4" },
-    { label: "Especialista", value: "opcion5" },
-  ]).value.map((opcion) => ({
-    label: opcion.label,
-    value: opcion.value,
-  }));
+
   
   
   let rows = ref([]);
@@ -285,11 +265,11 @@
 
 
   function limpiar() {
-    codigodeficha.value = "";
+    codigo.value = "";
     nombre.value = "";
-    niveldeformacion.value = "";
-    fechafin.value = "";
-    fechainicio.value = "";
+   
+    PresupuestoFin.value = "";
+    PresupuestoAsignado.value = "";
     Area_Id.value = "";
   }
   function eliminarComillas(cadena) {
@@ -306,11 +286,11 @@
       try {
         showDefault();
         await fichastore.postinfoficha({
-          CodigoFicha: codigodeficha.value,
+          CodigoFicha: codigo.value,
           Nombre: nombre.value,
-          NivelFormacion: niveldeformacion.value,
-          FechaInicio: fechainicio.value,
-          FechaFin: fechafin.value,
+  
+          PresupuestoAsignado: PresupuestoAsignado.value,
+          PresupuestoFin: PresupuestoFin.value,
           Area_Id: Area_Id._rawValue.value,
         });
         obtenerInfo();
@@ -344,11 +324,11 @@
         try {
           showDefault();
           await fichastore.puteditarficha(id, {
-            CodigoFicha: codigodeficha.value,
+            CodigoFicha: codigo.value,
             Nombre: nombre.value,
-            NivelFormacion: niveldeformacion.value,
-            FechaInicio: fechainicio.value,
-            FechaFin: fechafin.value,
+       
+            PresupuestoAsignado: PresupuestoAsignado.value,
+            PresupuestoFin: PresupuestoFin.value,
             Area_Id: Area_Id._rawValue.value,
           });
           btnagregar.value = true;
@@ -395,16 +375,16 @@
       btnagregar.value = false;
       btnaceptar.value = true;
       text.value = "Editar Ficha";
-      codigodeficha.value = fichaseleccionada.CodigoFicha;
+      codigo.value = fichaseleccionada.CodigoFicha;
       nombre.value = fichaseleccionada.Nombre;
-      niveldeformacion.value = fichaseleccionada.NivelFormacion;
+
       Area_Id.value = {
         label: `${fichaseleccionada.Area_Id.Nombre}`,
         value: String(fichaseleccionada.Area_Id._id),
       };
-      fechafin.value = format(new Date(fichaseleccionada.FechaFin), "yyyy-MM-dd");
-      fechainicio.value = format(
-        new Date(fichaseleccionada.FechaInicio),
+      PresupuestoFin.value = format(new Date(fichaseleccionada.PresupuestoFin), "yyyy-MM-dd");
+      PresupuestoAsignado.value = format(
+        new Date(fichaseleccionada.PresupuestoAsignado),
         "yyyy-MM-dd"
       );
     }

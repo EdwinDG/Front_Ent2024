@@ -3,60 +3,60 @@ import axios from 'axios';
 import { ref } from 'vue';
 
 
-export const useproductostore = defineStore('producto', () => {
-    const producto = ref([]);
+export const usecontratostore = defineStore('contrato', () => {
+    const contrato = ref([]);
 
-    const obtenerinfoproducto = async () => {
+    const obtenerinfocontrato = async () => {
         try {
-            let responseproducto = await axios.get('producto/productobusca');
-            console.log(responseproducto);
-            producto.value = responseproducto.data.productos;
+            let responsecontrato = await axios.get('contrato/contratobusca');
+            console.log(responsecontrato);
+            contrato.value = responsecontrato.data.contratos;
         } catch (error) {   
             throw error
         }
     };
 
-    const postinfoproducto = async (data) => {
+    const postinfocontrato = async (data) => {
         try {
-            let responseproducto = await axios.post('producto/productocrear', data);
-            console.log(responseproducto);
-            producto.value = responseproducto.data.productos;
-            console.log(producto);
-            return responseproducto
+            let responsecontrato = await axios.post('contrato/contratocrear', data);
+            console.log(responsecontrato);
+            contrato.value = responsecontrato.data.contratos;
+            console.log(contrato);
+            return responsecontrato
         } catch (error) {
             console.log(error);
             throw error
         }
     };
 
-    const puteditarproducto = async (id, data) => {
+    const puteditarcontrato = async (id, data) => {
         try {
-            let responseproducto = await axios.put(`producto/productomodificar/${id}`, data);
-            return responseproducto
+            let responsecontrato = await axios.put(`contrato/contratomodificar/${id}`, data);
+            return responsecontrato
         } catch (error) {
             throw error;
         }
     };
 
-    const putInactivarproducto = async (id) => {
+    const putInactivarcontrato = async (id) => {
         try {
-            let responseproducto = await axios.put(`producto/productoinac/${id}`)
-            return responseproducto
+            let responsecontrato = await axios.put(`contrato/contratoinac/${id}`)
+            return responsecontrato
         } catch (error) {
-            console.log(error, "Error al cambiar el estado del producto");
+            console.log(error, "Error al cambiar el estado del contrato");
         }
     };
-    const putActivarproducto = async (id) => {
+    const putActivarcontrato = async (id) => {
         try {
-            let responseproducto = await axios.put(`producto/productoact/${id}`)
-            return responseproducto
+            let responsecontrato = await axios.put(`contrato/contratoact/${id}`)
+            return responsecontrato
         } catch (error) {
-            console.log(error, "Error al cambiar el estado del producto");
+            console.log(error, "Error al cambiar el estado del contrato");
         }
     };
 
     return {
-        producto,
-        obtenerinfoproducto, postinfoproducto, puteditarproducto, putInactivarproducto, putActivarproducto
+        contrato,
+        obtenerinfocontrato, postinfocontrato, puteditarcontrato, putInactivarcontrato, putActivarcontrato
     };
 });
