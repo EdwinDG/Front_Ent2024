@@ -171,7 +171,7 @@
   import { usecontratostore } from "../stores/Contrato.js";
 
   const contratostore = usecontratostore();
-  fichastore
+  
   const options = ref([]);
   const $q = useQuasar();
   const fileInput = ref(null);
@@ -180,7 +180,6 @@
   let notification;
   let codigo = ref("");
   let nombre = ref("");
-
   let PresupuestoAsignado = ref("");
   let PresupuestoFin = ref("");
   const filter = ref("");
