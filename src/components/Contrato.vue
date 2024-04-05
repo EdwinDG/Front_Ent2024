@@ -69,11 +69,6 @@
                   <q-form class="q-gutter-md">
                     <div class="contenedor_modal">
   
-                      <div class="modal_izquierdo" :style="{ backgroundImage: `url(${imageUrl})` }">
-                        <i class="fa-solid fa-xmark" style="color: #ff0000" @click="eliminarImagen"
-                          v-if="imageUrl !== ''"></i>
-                      </div>
-  
                       <div class="modal_derecho">
                         <div class="rectangulo">Informacion de fichas</div>
                         <div class="container_input2">
@@ -121,8 +116,7 @@
                               <i class="fa fa-list" aria-hidden="true"></i>
                             </template>
                           </q-select>
-                        </div>
-  
+                        </div> 
   
                         <div class="container_input2">
   

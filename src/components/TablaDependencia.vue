@@ -50,7 +50,7 @@
 
             <q-card class="modal">
               <div class="titulo-linea">
-                <h5 class="titulos">{{ text }} </h5>
+                <h5 class="titulos">Agrgar dependencia</h5>
                 <div class="linea"></div>
               </div>
 
@@ -109,7 +109,7 @@ const $q = useQuasar();
 let Nombre = ref("");
 const filter = ref("")
 let areas = ref([]);
-let text = ref("Agregar area");
+let text = ref("Agregar dependencia");
 let btnaceptar = ref(false);
 let btnagregar = ref(true);
 let prompt = ref(false);
@@ -427,20 +427,6 @@ body {
 .contenedor_modal {
   display: flex;
 }
-
-.modal_izquierdo {
-  background-color: #ffffff;
-  border-radius: 10px;
-  border-top: 2px solid #2e7d32!important;
-  border-bottom: 2px solid #2e7d32!important;
-  margin: 0px 60px 0px 0px;
-  width: 250px;
-  height: 200px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 
 .rectangulo {
   position: relative;
