@@ -447,19 +447,6 @@ body {
   display: flex;
 }
 
-.modal_izquierdo {
-  background-color: #ffffff;
-  border-radius: 10px;
-  border-top: 2px solid #21ba45;
-  border-bottom: 2px solid #21ba45;
-  margin: 0px 60px 0px 0px;
-  width: 250px;
-  height: 200px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 
 .rectangulo {
   position: relative;

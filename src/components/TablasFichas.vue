@@ -238,22 +238,6 @@
                             </template>
                           </q-input>
                         </div>
-
-                        <div class="container_input3">
-                          <label class="label-input3" for="">Imagen:</label>
-                          <input
-                            type="file"
-                            ref="fileInput"
-                            style="display: none"
-                            @change="handleFileChange"
-                          />
-                          <q-btn
-                            @click="openFileExplorer"
-                            icon="image"
-                            class="modal_input2"
-                            >Agregar Imagen</q-btn
-                          >
-                        </div>
                       </div>
 
                       <div class="contenedor_botones">
