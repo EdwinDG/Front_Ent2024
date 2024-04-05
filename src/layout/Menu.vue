@@ -15,17 +15,7 @@
             Distribucion de presupuesto
           </button>
         </router-link> -->
-        <q-input
-          filled
-          v-model="searchQuery"
-          dense
-          placeholder="Buscar..."
-          style="max-width: 250px"
-        >
-          <template v-slot:prepend>
-            <q-icon name="search" />
-          </template>
-        </q-input>
+        <select name="" id=""></select>
 
         <q-btn-dropdown
           class="btnlogout"
