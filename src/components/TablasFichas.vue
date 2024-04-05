@@ -17,39 +17,69 @@
             </button>
           </div>
 
-          <q-table class="tabla" flat bordered :rows="rows" :filter="filter" :columns="columns" row-key="index"
-            virtual-scroll :rows-per-page-options="[0]">
+          <q-table
+            class="tabla"
+            flat
+            bordered
+            :rows="rows"
+            :filter="filter"
+            :columns="columns"
+            row-key="index"
+            virtual-scroll
+            :rows-per-page-options="[0]"
+          >
             <template v-slot:body-cell-NivelFormacion="props">
               <q-td :props="props">
-                {{ JSON.stringify(props.row.NivelFormacion.label) }}
+                {{ props.row.NivelFormacion.label }}
               </q-td>
             </template>
             <template v-slot:body-cell-Estado="props">
               <q-td :props="props">
-                <label for="" v-if="props.row.Estado == 1" style="color: green; font-weight: bold">Activo</label>
-                <label for="" v-else style="color: red; font-weight: bold">Inactivo</label>
+                <label
+                  for=""
+                  v-if="props.row.Estado == 1"
+                  style="color: green; font-weight: bold"
+                  >Activo</label
+                >
+                <label for="" v-else style="color: red; font-weight: bold"
+                  >Inactivo</label
+                >
               </q-td>
             </template>
-
 
             <template v-slot:body-cell-opciones="props">
               <q-td class="opciones" :props="props">
                 <button class="btnedit" @click="editarficha(props.row._id)">
                   <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <button class="btninac" @click="inactivarficha(props.row._id)" v-if="props.row.Estado == 1">
+                <button
+                  class="btninac"
+                  @click="inactivarficha(props.row._id)"
+                  v-if="props.row.Estado == 1"
+                >
                   <i class="fa-solid fa-xmark" style="color: #ff0000"></i>
                 </button>
-                <button class="btnact" @click="activarficha(props.row._id)" v-else>
+                <button
+                  class="btnact"
+                  @click="activarficha(props.row._id)"
+                  v-else
+                >
                   <i class="fa-solid fa-check" style="color: #006110"></i>
                 </button>
               </q-td>
             </template>
 
-
             <template v-slot:top-right>
-              <q-input borderless dense debounce="300" color="primary" v-model="filter" class="buscar"
-                placeholder="Buscar cualquier campo" id="boxBuscar">
+              <q-input
+                borderless
+                dense
+                debounce="300"
+                color="primary"
+                v-model="filter"
+                class="buscar"
+                placeholder="Buscar cualquier campo"
+                id="boxBuscar"
+              >
                 <template v-slot:append>
                   <q-icon name="search" />
                 </template>
@@ -65,13 +95,18 @@
               </div>
 
               <q-card-section>
-
                 <q-form class="q-gutter-md">
                   <div class="contenedor_modal">
-
-                    <div class="modal_izquierdo" :style="{ backgroundImage: `url(${imageUrl})` }">
-                      <i class="fa-solid fa-xmark" style="color: #ff0000" @click="eliminarImagen"
-                        v-if="imageUrl !== ''"></i>
+                    <div
+                      class="modal_izquierdo"
+                      :style="{ backgroundImage: `url(${imageUrl})` }"
+                    >
+                      <i
+                        class="fa-solid fa-xmark"
+                        style="color: #ff0000"
+                        @click="eliminarImagen"
+                        v-if="imageUrl !== ''"
+                      ></i>
                     </div>
 
                     <div class="modal_derecho">
@@ -79,31 +114,67 @@
                       <div class="container_input2">
                         <div class="container_input3">
                           <label class="label-input" for="">Codigo:</label>
-                          <q-input color="green" filled v-model="codigodeficha" class="modal_input2" type="number"
-                            lazy-rules :rules="[(val) => !!val || 'Por favor ingrese el codigo de ficha']">
+                          <q-input
+                            color="green"
+                            filled
+                            v-model="codigodeficha"
+                            class="modal_input2"
+                            type="number"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                !!val || 'Por favor ingrese el codigo de ficha',
+                            ]"
+                          >
                             <template v-slot:prepend>
                               <i class="fa fa-code" aria-hidden="true"></i>
                             </template>
                           </q-input>
                         </div>
 
-
                         <div class="container_input3">
                           <label class="label-input" for="">Nombre:</label>
-                          <q-input color="green" filled v-model="nombre" class="modal_input2" type="text" lazy-rules
-                            :rules="[(val) => !!val || 'Por favor ingrese el nombre de la ficha']">
+                          <q-input
+                            color="green"
+                            filled
+                            v-model="nombre"
+                            class="modal_input2"
+                            type="text"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                !!val ||
+                                'Por favor ingrese el nombre de la ficha',
+                            ]"
+                          >
                             <template v-slot:prepend>
-                              <i class="fa-solid fa-users-line" aria-hidden="true"></i>
+                              <i
+                                class="fa-solid fa-users-line"
+                                aria-hidden="true"
+                              ></i>
                             </template>
                           </q-input>
                         </div>
 
                         <div class="container_input3">
-                          <label class="label-input" for="">Nivel de fomacion:</label>
-                          <q-select color="green" filled v-model="niveldeformacion"
-                            :options="opcionesNivelDeFormacionArray" class="modal_input2" type="text" lazy-rules :rules="[
-                              (val) => !!val || 'Por favor ingrese el nivel de formacion.',
-                            ]" hide-bottom-space>
+                          <label class="label-input" for=""
+                            >Nivel de fomacion:</label
+                          >
+                          <q-select
+                            color="green"
+                            filled
+                            v-model="niveldeformacion"
+                            :options="opcionesNivelDeFormacionArray"
+                            class="modal_input2"
+                            type="text"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                !!val ||
+                                'Por favor ingrese el nivel de formacion.',
+                            ]"
+                            hide-bottom-space
+                          >
                             <template v-slot:prepend>
                               <i class="fa fa-list" aria-hidden="true"></i>
                             </template>
@@ -111,9 +182,21 @@
                         </div>
 
                         <div class="container_input3">
-                          <label class="label-input" for="">Fecha de inicio:</label>
-                          <q-input color="green" filled v-model="fechainicio" class="modal_input2" type="date" lazy-rules
-                            :rules="[(val) => !!val || 'Por favor ingrese la fecha de inicio']">
+                          <label class="label-input" for=""
+                            >Fecha de inicio:</label
+                          >
+                          <q-input
+                            color="green"
+                            filled
+                            v-model="fechainicio"
+                            class="modal_input2"
+                            type="date"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                !!val || 'Por favor ingrese la fecha de inicio',
+                            ]"
+                          >
                             <template v-slot:prepend>
                               <i class="fa fa-calendar" aria-hidden="true"></i>
                             </template>
@@ -123,23 +206,44 @@
 
                       <div class="container_input4">
                         <label class="label-input2" for="">Area:</label>
-                        <q-select color="green" filled v-model="Area_Id" :options="options" class="modal_input3"
-                          type="text" lazy-rules :rules="[
-                            (val) => !!val || 'Por favor ingrese el area de ficha',
-                          ]" hide-bottom-space>
+                        <q-select
+                          color="green"
+                          filled
+                          v-model="Area_Id"
+                          :options="options"
+                          class="modal_input3"
+                          type="text"
+                          lazy-rules
+                          :rules="[
+                            (val) =>
+                              !!val || 'Por favor ingrese el area de ficha',
+                          ]"
+                          hide-bottom-space
+                        >
                           <template v-slot:prepend>
                             <i class="fa fa-list" aria-hidden="true"></i>
                           </template>
                         </q-select>
                       </div>
 
-
                       <div class="container_input2">
-
                         <div class="container_input3">
-                          <label class="label-input3" for="">Fecha de finalizacion:</label>
-                          <q-input color="green" filled v-model="fechafin" class="modal_input2" type="date" lazy-rules
-                            :rules="[(val) => !!val || 'Por favor ingrese la fecha de finalizacion.']">
+                          <label class="label-input3" for=""
+                            >Fecha de finalizacion:</label
+                          >
+                          <q-input
+                            color="green"
+                            filled
+                            v-model="fechafin"
+                            class="modal_input2"
+                            type="date"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                !!val ||
+                                'Por favor ingrese la fecha de finalizacion.',
+                            ]"
+                          >
                             <template v-slot:prepend>
                               <i class="fa fa-calendar" aria-hidden="true"></i>
                             </template>
@@ -148,18 +252,43 @@
 
                         <div class="container_input3">
                           <label class="label-input3" for="">Imagen:</label>
-                          <input type="file" ref="fileInput" style="display:none" @change="handleFileChange">
-                          <q-btn @click="openFileExplorer" icon="image" class="modal_input2">Agregar Imagen</q-btn>
+                          <input
+                            type="file"
+                            ref="fileInput"
+                            style="display: none"
+                            @change="handleFileChange"
+                          />
+                          <q-btn
+                            @click="openFileExplorer"
+                            icon="image"
+                            class="modal_input2"
+                            >Agregar Imagen</q-btn
+                          >
                         </div>
-
                       </div>
 
                       <div class="contenedor_botones">
-                        <q-btn flat v-close-popup class="btnagregar1" type="reset" label="Cancelar" />
-                        <q-btn label="Agregar" class="btnagregar2" @click="agregarficha()" v-if="btnagregar"
-                          type="submit" />
-                        <q-btn label="Aceptar" class="btnagregar2" @click="agregarficha()" v-if="btnaceptar"
-                          type="submit" />
+                        <q-btn
+                          flat
+                          v-close-popup
+                          class="btnagregar1"
+                          type="reset"
+                          label="Cancelar"
+                        />
+                        <q-btn
+                          label="Agregar"
+                          class="btnagregar2"
+                          @click="agregarficha()"
+                          v-if="btnagregar"
+                          type="submit"
+                        />
+                        <q-btn
+                          label="Aceptar"
+                          class="btnagregar2"
+                          @click="agregarficha()"
+                          v-if="btnaceptar"
+                          type="submit"
+                        />
                       </div>
                     </div>
                   </div>
@@ -209,6 +338,7 @@ function agregar() {
   btnaceptar.value = false;
   btnagregar.value = true;
 }
+
 /* const niveldeformacion = ref(null); */
 const opcionesNivelDeFormacionArray = ref([
   { label: "Tecnico", value: "opcion1" },
@@ -220,7 +350,6 @@ const opcionesNivelDeFormacionArray = ref([
   label: opcion.label,
   value: opcion.value,
 }));
-
 
 let rows = ref([]);
 let ficha = ref([]);
@@ -251,7 +380,7 @@ const columns = [
   {
     name: "NivelFormacion",
     label: "Nivel de formacion",
-    field: val => eliminarComillas(val.NivelFormacion.label),
+    field: (val) => val.NivelFormacion.label,
     headerStyle: {
       fontWeight: "bold",
       fontSize: "15px",
@@ -324,14 +453,6 @@ function limpiar() {
   fechainicio.value = "";
   Area_Id.value = "";
 }
-function eliminarComillas(cadena) {
-  if (cadena.startsWith('"') && cadena.endsWith('"')) {
-    return cadena.slice(1, -1);
-  } else {
-    console.log('a');
-    return cadena;
-  }
-}
 
 async function agregarficha() {
   if (xd.value == 0) {
@@ -357,7 +478,7 @@ async function agregarficha() {
         type: "positive",
       });
       obtenerInfo();
-      prompt.value = false
+      prompt.value = false;
     } catch (error) {
       if (notification) {
         notification();
@@ -369,7 +490,6 @@ async function agregarficha() {
         type: "negative",
       });
     }
-
   } else {
     let id = idficha.value;
     if (id) {
@@ -410,7 +530,6 @@ async function agregarficha() {
         });
       }
     }
-
   }
 }
 
@@ -561,7 +680,6 @@ const handleFileChange = (event) => {
 const eliminarImagen = () => {
   imageUrl.value = "";
 };
-
 </script>
 
 <style scoped>
@@ -655,7 +773,6 @@ body {
   background-position: center;
 }
 
-
 .rectangulo {
   position: relative;
   display: flex;
@@ -683,7 +800,6 @@ body {
   width: 100%;
 }
 
-
 .container_input2 {
   display: flex;
   flex-wrap: wrap;
@@ -705,7 +821,6 @@ body {
   margin: 0;
   width: 100%;
 }
-
 
 .modal_input3 {
   width: 80%;
@@ -770,15 +885,11 @@ i {
   margin: 10px;
 }
 
-
 .contenedor_botones {
   display: flex;
   height: 50px;
   justify-content: space-between;
 }
-
-
-
 
 /* Estilos de los botones de acción en la tabla */
 .opciones {
@@ -802,7 +913,6 @@ i {
   display: flex;
 }
 
-
 .btnedit {
   font-size: 20px;
   width: 40px;
@@ -812,7 +922,7 @@ i {
   font-weight: bold;
   cursor: pointer;
 }
-i{
+i {
   margin: 0;
 }
 .btninac,
@@ -905,10 +1015,7 @@ i{
   .container2 {
     margin-top: 50px;
   }
-
-
 }
-
 
 /* Estilos específicos para pantallas más grandes */
 @media only screen and (min-width: 1200px) {
