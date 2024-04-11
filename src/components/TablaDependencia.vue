@@ -33,6 +33,9 @@
                 <button class="btnact" @click="activararea(props.row._id)" v-else>
                   <i class="fa-solid fa-check" style="color: #006110"></i>
                 </button>
+                <button class="btnedit" @click="goDisDependencia()">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
               </q-td>
             </template>
             <template v-slot:top-right>
@@ -100,6 +103,9 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 import { useQuasar } from "quasar";
 import { useareastore } from "../stores/Area.js";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 /* const $q = useQuasar(); */
 const areastore = useareastore();
 let rows = ref([]);
@@ -133,6 +139,12 @@ function agregar() {
         );
     }
 } */
+
+
+function goDisDependencia(DependenciaLote_id){
+  router.push(`/DistribucionLoteDependencia/${DependenciaLote_id}`);
+}
+
 let notification;
 const columns = [
   {

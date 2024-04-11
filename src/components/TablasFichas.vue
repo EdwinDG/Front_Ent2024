@@ -282,6 +282,7 @@ import { useQuasar } from "quasar";
 import { format } from "date-fns";
 import { usefichastore } from "../stores/Fichas.js";
 import { useareastore } from "../stores/Area.js";
+import helpers from "../helpers/General.js"
 const fichastore = usefichastore();
 const areastore = useareastore();
 const options = ref([]);
@@ -343,7 +344,7 @@ const columns = [
   {
     name: "Nombre",
     label: "Nombre",
-    field: "Nombre",
+    field: val=>helpers.primeraMayus(val.Nombre),
     headerStyle: {
       fontWeight: "bold",
       fontSize: "15px",

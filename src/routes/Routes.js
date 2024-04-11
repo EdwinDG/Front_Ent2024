@@ -18,6 +18,7 @@ import DistribucionPresupuesto from "../components/DistribucionPresupuesto.vue";
 import CodigoRecuperar from "../components/CodigoRecuperar.vue";
 import Nuevacontrasena from "../components/NuevaContrasena.vue";
 import Contrato from "../components/Contrato.vue";
+import DistribucionLoteDependencia from "../components/DistribucionLoteDependencia.vue";
 import { useusuariostore } from "../stores/Usuario";
 
 
@@ -122,6 +123,12 @@ const routes = [
       {
         path: "/DistribucionPresupuesto",
         component: DistribucionPresupuesto,
+        beforeEnter: auth,
+        meta: { rol: ["admin", "instructor"] },
+      },
+      {
+        path: "/DistribucionLoteDependencia",
+        component: DistribucionLoteDependencia,
         beforeEnter: auth,
         meta: { rol: ["admin", "instructor"] },
       },
