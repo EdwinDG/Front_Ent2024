@@ -30,37 +30,40 @@ export const useusuariostore = defineStore("usuario", () => {
     }
   };
 
-
   const verificarCodigo = async (codigo) => {
     try {
       let response = await axios.post(`usuario/confirmarcodigo/${codigo}`);
-      console.log("Hola soy enviar codigo", response)
+      console.log("Hola soy enviar codigo", response);
       return response;
     } catch (error) {
       console.log("Nokas pelotas v2", error);
     }
-  }
+  };
 
   const sendemail = async (correo) => {
     try {
       let response = await axios.post("usuario/recuperar-password", correo);
-      console.log("Hola soy enviar email", response)
+      console.log("Hola soy enviar email", response);
       return response;
     } catch (error) {
       console.log("Nokas pelotas", error);
     }
-  }
+  };
 
   const newpassword = async (data) => {
     try {
-        let res = await axios.put("usuario/nuevaPassword", data);
-        console.log("Felicidades mi loko lo lograste", res)
-        return res
+      let res = await axios.put("usuario/nuevaPassword", {
+        Correo: data.Correo,
+        codigo: data.codigo,
+        Contraseña: data.Contraseña,
+      });
+      console.log("Felicidades mi loko lo lograste", res);
+      return res;
     } catch (error) {
       console.log("Nokas pelotas v3", error);
-        throw error;
+      throw error;
     }
-};
+  };
 
   const login = async (data) => {
     try {
