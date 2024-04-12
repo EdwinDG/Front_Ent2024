@@ -237,7 +237,7 @@ async function agregarRed_conocimiento() {
   if (xd.value == 0) {
     try {
       showDefault();
-      await redstores.postinforedeconocimiento({
+      await redstores.postinfored({
         Nombre: nombre.value,
       });
       getInfo();
