@@ -20,6 +20,7 @@ import Nuevacontrasena from "../components/NuevaContrasena.vue";
 import Contrato from "../components/Contrato.vue";
 import DistribucionLoteDependencia from "../components/DistribucionLoteDependencia.vue";
 import { useusuariostore } from "../stores/Usuario";
+import Red_conocimiento from "../components/Red_conocimiento.vue";
 
 
 import { createRouter, createWebHashHistory } from "vue-router";
@@ -137,6 +138,12 @@ const routes = [
         component: Contrato,
         beforeEnter: auth,
         meta: { rol: ["admin"] },
+      },
+      {
+        path: "/Red_conocimiento",
+        component: Red_conocimiento,
+        beforeEnter: auth,
+        meta : { rol: ["admin"]},
       },
     ],
   },
