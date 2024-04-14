@@ -19,8 +19,10 @@ import CodigoRecuperar from "../components/CodigoRecuperar.vue";
 import Nuevacontrasena from "../components/NuevaContrasena.vue";
 import Contrato from "../components/Contrato.vue";
 import DistribucionLoteDependencia from "../components/DistribucionLoteDependencia.vue";
-import { useusuariostore } from "../stores/Usuario";
 import Red_conocimiento from "../components/Red_conocimiento.vue";
+import Red_Lote from "../components/Red_Lote.vue";
+import { useusuariostore } from "../stores/Usuario";
+
 
 
 import { createRouter, createWebHashHistory } from "vue-router";
@@ -143,8 +145,14 @@ const routes = [
         path: "/Red_conocimiento",
         component: Red_conocimiento,
         beforeEnter: auth,
-        meta : { rol: ["admin"]},
+        meta : { rol: ["admin", "instructor"]},
       },
+      {
+        path: "/Red_Lote",
+        component: Red_Lote,
+        beforeEnter: auth,
+        meta: { rol: ["admin", "instructor"]},
+      }
     ],
   },
 ];

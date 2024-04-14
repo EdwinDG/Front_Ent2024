@@ -26,7 +26,7 @@ export const useredstores = defineStore('redconocimiento', () => {
         }
     };
 
-    const puteditared = async (id, data) => {
+    const puteditared = async (id, data) =>{
         try {
             let res = await axios.put(`redconocimiento/redconocimientomodificar/${id}`, data);
             return res
@@ -34,6 +34,7 @@ export const useredstores = defineStore('redconocimiento', () => {
             throw error;
         }
     };
+
     const putinactivarred = async (id)=>{
         try {
             let r = await axios.put(`redconocimiento/inactivar/${id}`)
@@ -53,7 +54,7 @@ export const useredstores = defineStore('redconocimiento', () => {
 
     return{
         Red_conocimiento,
-        obtenerifrored, postinfored, postinfored, puteditared, putinactivarred, putactivarred
+        obtenerifrored, postinfored, puteditared, putinactivarred, putactivarred
     };
 
 

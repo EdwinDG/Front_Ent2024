@@ -17,17 +17,8 @@
             </button>
           </div>
 
-          <q-table
-            class="tabla"
-            flat
-            bordered
-            :rows="rows"
-            :filter="filter"
-            :columns="columns"
-            row-key="index"
-            virtual-scroll
-            :rows-per-page-options="[0]"
-          >
+          <q-table class="tabla" flat bordered :rows="rows" :filter="filter" :columns="columns" row-key="index"
+            virtual-scroll :rows-per-page-options="[0]">
             <template v-slot:body-cell-NivelFormacion="props">
               <q-td :props="props">
                 {{ props.row.NivelFormacion.label }}
@@ -35,51 +26,37 @@
             </template>
             <template v-slot:body-cell-Estado="props">
               <q-td :props="props">
-                <label
-                  for=""
-                  v-if="props.row.Estado == 1"
-                  style="color: green; font-weight: bold"
-                  >Activo</label
-                >
-                <label for="" v-else style="color: red; font-weight: bold"
-                  >Inactivo</label
-                >
+                <label for="" v-if="props.row.Estado == 1" style="color: green; font-weight: bold">Activo</label>
+                <label for="" v-else style="color: red; font-weight: bold">Inactivo</label>
               </q-td>
             </template>
 
             <template v-slot:body-cell-opciones="props">
               <q-td class="opciones" :props="props">
-                <button class="btnedit" @click="editarredconocimiento(props.row._id)">
+                <button class="btnedit" @click="puteditared(props.row._id)">
                   <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <button
-                  class="btninac"
-                  @click="inactivarredconocimiento(props.row._id)"
-                  v-if="props.row.Estado == 1"
-                >
+                <button class="btninac" @click="inactivarredconocimiento(props.row._id)" v-if="props.row.Estado == 1">
                   <i class="fa-solid fa-xmark" style="color: #ff0000"></i>
                 </button>
-                <button
-                  class="btnact"
-                  @click="activarredconocimiento(props.row._id)"
-                  v-else
-                >
+                <button class="btnact" @click="activarredconocimiento(props.row._id)" v-else>
                   <i class="fa-solid fa-check" style="color: #006110"></i>
                 </button>
+                <button class="btnedit" @click="goConexRedLote(props.row._id)">
+                  Red-Lote
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+
+
+
+
               </q-td>
             </template>
 
             <template v-slot:top-right>
-              <q-input
-                borderless
-                dense
-                debounce="300"
-                color="primary"
-                v-model="filter"
-                class="buscar"
-                placeholder="Buscar cualquier campo"
-                id="boxBuscar"
-              >
+              <q-input borderless dense debounce="300" color="primary" v-model="filter" class="buscar"
+                placeholder="Buscar cualquier campo" id="boxBuscar">
                 <template v-slot:append>
                   <q-icon name="search" />
                 </template>
@@ -103,51 +80,25 @@
                       <div class="container_input2">
                         <div class="container_input3">
                           <label class="label-input" for="">Nombre:</label>
-                          <q-input
-                            color="green"
-                            filled
-                            v-model="nombre"
-                            class="modal_input2"
-                            type="text"
-                            lazy-rules
+                          <q-input color="green" filled v-model="nombre" class="modal_input2" type="text" lazy-rules
                             :rules="[
-                              (val) =>
-                                !!val ||
-                                'Por favor ingrese el nombre de la red de conocimiento',
-                            ]"
-                          >
+        (val) =>
+          !!val ||
+          'Por favor ingrese el nombre de la red de conocimiento',
+      ]">
                             <template v-slot:prepend>
-                              <i
-                                class="fa-solid fa-users-line"
-                                aria-hidden="true"
-                              ></i>
+                              <i class="fa-solid fa-users-line" aria-hidden="true"></i>
                             </template>
                           </q-input>
                         </div>
-                      <div class="contenedor_botones">
-                        <q-btn
-                          flat
-                          v-close-popup
-                          class="btnagregar1"
-                          type="reset"
-                          label="Cancelar"
-                        />
-                        <q-btn
-                          label="Agregar"
-                          class="btnagregar2"
-                          @click="agregarRed_conocimiento()"
-                          v-if="btnagregar"
-                          type="submit"
-                        />
-                        <q-btn
-                          label="Aceptar"
-                          class="btnagregar2"
-                          @click="agregarRed_conocimiento()"
-                          v-if="btnaceptar"
-                          type="submit"
-                        />
+                        <div class="contenedor_botones">
+                          <q-btn flat v-close-popup class="btnagregar1" type="reset" label="Cancelar" />
+                          <q-btn label="Agregar" class="btnagregar2" @click="agregarRed_conocimiento()"
+                            v-if="btnagregar" type="submit" />
+                          <q-btn label="Aceptar" class="btnagregar2" @click="agregarRed_conocimiento()"
+                            v-if="btnaceptar" type="submit" />
+                        </div>
                       </div>
-                    </div>
                     </div>
                   </div>
                 </q-form>
@@ -161,10 +112,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted} from "vue";
+import { ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import { useredstores } from "../stores/Red_conocimiento.js";
 import helpers from "../helpers/General.js"
+import { useRouter } from 'vue-router';
+
 
 const redstores = useredstores();
 
@@ -189,6 +142,7 @@ onMounted(async () => {
 });
 
 
+
 function agregar() {
   prompt.value = true;
   xd.value = 0;
@@ -208,7 +162,7 @@ const columns = [
   {
     name: "Nombre",
     label: "Nombre",
-    field: val=>helpers.primeraMayus(val.Nombre),
+    field: val => helpers.primeraMayus(val.Nombre),
     headerStyle: {
       fontWeight: "bold",
       fontSize: "15px",
@@ -269,7 +223,7 @@ async function agregarRed_conocimiento() {
     if (id) {
       try {
         showDefault();
-        await redstores.puteditarredconocimiento(id, {
+        await redstores.puteditared(id, {
           Nombre: nombre.value,
         });
         btnagregar.value = true;
@@ -303,12 +257,12 @@ async function agregarRed_conocimiento() {
 }
 
 let idred_conocimiento = ref("");
-async function editarredconocimiento(id) {
+
+async function puteditared(id) {
   prompt.value = true;
-  obtenerarea();
   xd.value = 1;
-  const red_conocimientoseleccionada = red_conocimiento.value.find(
-    (transporte) => transporte._id === id
+  const red_conocimientoseleccionada = rows.value.find(
+    (editarred) => editarred._id === id
   );
   if (red_conocimientoseleccionada) {
     idred_conocimiento.value = String(red_conocimientoseleccionada._id);
@@ -316,17 +270,18 @@ async function editarredconocimiento(id) {
     btnaceptar.value = true;
     text.value = "Editar Red de conocimiento";
     nombre.value = red_conocimientoseleccionada.Nombre;
+    console.log("Hola soy editar");
   }
 }
+
 async function getInfo() {
   try {
     cargando.value = true;
     console.log("a", redstores);
     const response = await redstores.obtenerifrored();
     console.log("hola soy redes", response);
-    
+
     rows.value = redstores.Red_conocimiento;
-    obtenerarea();
   } catch (error) {
     console.log(error);
   } finally {
@@ -348,7 +303,7 @@ async function inactivarredconocimiento(id) {
     getInfo();
   } catch (error) {
     cancelShow();
-    badMessage.value = error.response.data.error.errors[0].msg; 
+    badMessage.value = error.response.data.error.errors[0].msg;
     showBad();
   }
 }
@@ -364,7 +319,7 @@ async function activarredconocimiento(id) {
     getInfo();
   } catch (error) {
     cancelShow();
-    badMessage.value = error.response.data.error.errors[0].msg; 
+    badMessage.value = error.response.data.error.errors[0].msg;
     showBad();
   }
 }
@@ -427,6 +382,7 @@ const eliminarImagen = () => {
 };
 
 </script>
+
 
 <style scoped>
 /* Estilos generales */
@@ -655,9 +611,11 @@ i {
   font-weight: bold;
   cursor: pointer;
 }
+
 i {
   margin: 0;
 }
+
 .btninac,
 .btnact {
   font-size: 23px;
