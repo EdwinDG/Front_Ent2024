@@ -175,7 +175,7 @@ const options = ref([]);
 const $q = useQuasar();
 const fileInput = ref(null);
 const imageUrl = ref("");
-
+const data = ref([]);
 let notification;
 
 let nombre = ref("");
@@ -207,7 +207,7 @@ let xd = ref(0);
 const columns = [
   {
     name: "Nombre",
-    label: "Nombre",
+    label: "nombre",
     field: (val) => helpers.primeraMayus(val.Nombre),
     headerStyle: {
       fontWeight: "bold",
@@ -241,9 +241,12 @@ async function agregarRed_conocimiento() {
   if (xd.value == 0) {
     try {
       showDefault();
-      await redstores.postinfored({
-        Nombre: nombre.value,
-      });
+      data.value = {
+      Nombre : nombre.value
+      }
+      await redstores.postinfored(
+        data.value
+      );
       getInfo();
       if (notification) {
         notification();
@@ -263,7 +266,7 @@ async function agregarRed_conocimiento() {
       }
       $q.notify({
         spinner: false,
-        message: `${error.response.data.error.errors[0].msg}`,
+        message: `f`,
         timeout: 2000,
         type: "negative",
       });

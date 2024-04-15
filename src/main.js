@@ -27,7 +27,7 @@ app.use(Quasar, {
 app.use(pinia);
 
 app.use(router);
-   axios.defaults.baseURL = "https://backendproyectofinal-1avx.onrender.com/api/";
-  //axios.defaults.baseURL ="http://localhost:4000/api/"
+  // axios.defaults.baseURL = "https://backendproyectofinal-1avx.onrender.com/api/";
+  axios.defaults.baseURL ="http://localhost:4000/api/"
 
 app.mount("#app");
