@@ -17,6 +17,7 @@ import ItemPresupuesto from "../components/ItemPresupuesto.vue";
 import DistribucionPresupuesto from "../components/DistribucionPresupuesto.vue";
 import CodigoRecuperar from "../components/CodigoRecuperar.vue";
 import Nuevacontrasena from "../components/NuevaContrasena.vue";
+import Proceso from "../components/Proceso.vue";
 import Contrato from "../components/Contrato.vue";
 import DistribucionLoteDependencia from "../components/DistribucionLoteDependencia.vue";
 import Red_conocimiento from "../components/Red_conocimiento.vue";
@@ -130,8 +131,14 @@ const routes = [
         meta: { rol: ["admin", "instructor"] },
       },
       {
-        path: "/DistribucionLoteDependencia",
+        path: "/DistribucionLoteDependencia/:id",
         component: DistribucionLoteDependencia,
+        beforeEnter: auth,
+        meta: { rol: ["admin", "instructor"] },
+      },
+      {
+        path: "/Proceso",
+        component: Proceso,
         beforeEnter: auth,
         meta: { rol: ["admin", "instructor"] },
       },
@@ -148,7 +155,7 @@ const routes = [
         meta : { rol: ["admin", "instructor"]},
       },
       {
-        path: "/Red_Lote",
+        path: "/Red_Lote/:id",
         component: Red_Lote,
         beforeEnter: auth,
         meta: { rol: ["admin", "instructor"]},

@@ -17,8 +17,17 @@
             </button>
           </div>
 
-          <q-table class="tabla" flat bordered :rows="rows" :filter="filter" :columns="columns" row-key="index"
-            virtual-scroll :rows-per-page-options="[0]">
+          <q-table
+            class="tabla"
+            flat
+            bordered
+            :rows="rows"
+            :filter="filter"
+            :columns="columns"
+            row-key="index"
+            virtual-scroll
+            :rows-per-page-options="[0]"
+          >
             <template v-slot:body-cell-NivelFormacion="props">
               <q-td :props="props">
                 {{ props.row.NivelFormacion.label }}
@@ -26,8 +35,15 @@
             </template>
             <template v-slot:body-cell-Estado="props">
               <q-td :props="props">
-                <label for="" v-if="props.row.Estado == 1" style="color: green; font-weight: bold">Activo</label>
-                <label for="" v-else style="color: red; font-weight: bold">Inactivo</label>
+                <label
+                  for=""
+                  v-if="props.row.Estado == 1"
+                  style="color: green; font-weight: bold"
+                  >Activo</label
+                >
+                <label for="" v-else style="color: red; font-weight: bold"
+                  >Inactivo</label
+                >
               </q-td>
             </template>
 
@@ -36,27 +52,39 @@
                 <button class="btnedit" @click="puteditared(props.row._id)">
                   <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <button class="btninac" @click="inactivarredconocimiento(props.row._id)" v-if="props.row.Estado == 1">
+                <button
+                  class="btninac"
+                  @click="inactivarredconocimiento(props.row._id)"
+                  v-if="props.row.Estado == 1"
+                >
                   <i class="fa-solid fa-xmark" style="color: #ff0000"></i>
                 </button>
-                <button class="btnact" @click="activarredconocimiento(props.row._id)" v-else>
+                <button
+                  class="btnact"
+                  @click="activarredconocimiento(props.row._id)"
+                  v-else
+                >
                   <i class="fa-solid fa-check" style="color: #006110"></i>
                 </button>
-                <button class="btnedit" @click="goConexRedLote(props.row._id)">
+                <!-- Ir a otra pagina con boton id  -->
+                <button class="btnedit" @click="goRed_lote(props.row._id)">
                   Red-Lote
                   <i class="fa-solid fa-arrow-right"></i>
                 </button>
-
-
-
-
-
               </q-td>
             </template>
 
             <template v-slot:top-right>
-              <q-input borderless dense debounce="300" color="primary" v-model="filter" class="buscar"
-                placeholder="Buscar cualquier campo" id="boxBuscar">
+              <q-input
+                borderless
+                dense
+                debounce="300"
+                color="primary"
+                v-model="filter"
+                class="buscar"
+                placeholder="Buscar cualquier campo"
+                id="boxBuscar"
+              >
                 <template v-slot:append>
                   <q-icon name="search" />
                 </template>
@@ -74,29 +102,51 @@
               <q-card-section>
                 <q-form class="q-gutter-md">
                   <div class="contenedor_modal">
-
                     <div class="modal_derecho">
                       <div class="rectangulo">Informacion de Red conocimiento</div>
                       <div class="container_input2">
                         <div class="container_input3">
                           <label class="label-input" for="">Nombre:</label>
-                          <q-input color="green" filled v-model="nombre" class="modal_input2" type="text" lazy-rules
+                          <q-input
+                            color="green"
+                            filled
+                            v-model="nombre"
+                            class="modal_input2"
+                            type="text"
+                            lazy-rules
                             :rules="[
-        (val) =>
-          !!val ||
-          'Por favor ingrese el nombre de la red de conocimiento',
-      ]">
+                              (val) =>
+                                !!val ||
+                                'Por favor ingrese el nombre de la red de conocimiento',
+                            ]"
+                          >
                             <template v-slot:prepend>
                               <i class="fa-solid fa-users-line" aria-hidden="true"></i>
                             </template>
                           </q-input>
                         </div>
                         <div class="contenedor_botones">
-                          <q-btn flat v-close-popup class="btnagregar1" type="reset" label="Cancelar" />
-                          <q-btn label="Agregar" class="btnagregar2" @click="agregarRed_conocimiento()"
-                            v-if="btnagregar" type="submit" />
-                          <q-btn label="Aceptar" class="btnagregar2" @click="agregarRed_conocimiento()"
-                            v-if="btnaceptar" type="submit" />
+                          <q-btn
+                            flat
+                            v-close-popup
+                            class="btnagregar1"
+                            type="reset"
+                            label="Cancelar"
+                          />
+                          <q-btn
+                            label="Agregar"
+                            class="btnagregar2"
+                            @click="agregarRed_conocimiento()"
+                            v-if="btnagregar"
+                            type="submit"
+                          />
+                          <q-btn
+                            label="Aceptar"
+                            class="btnagregar2"
+                            @click="agregarRed_conocimiento()"
+                            v-if="btnaceptar"
+                            type="submit"
+                          />
                         </div>
                       </div>
                     </div>
@@ -115,12 +165,12 @@
 import { ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import { useredstores } from "../stores/Red_conocimiento.js";
-import helpers from "../helpers/General.js"
-import { useRouter } from 'vue-router';
-
+import helpers from "../helpers/General.js";
+//Ir a otra pagina con boton id
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const redstores = useredstores();
-
 const options = ref([]);
 const $q = useQuasar();
 const fileInput = ref(null);
@@ -136,12 +186,9 @@ let btnagregar = ref(true);
 let prompt = ref(false);
 const cargando = ref(false);
 
-
 onMounted(async () => {
   getInfo();
 });
-
-
 
 function agregar() {
   prompt.value = true;
@@ -153,7 +200,6 @@ function agregar() {
   btnagregar.value = true;
 }
 
-
 let rows = ref([]);
 let red_conocimiento = ref([]);
 let xd = ref(0);
@@ -162,7 +208,7 @@ const columns = [
   {
     name: "Nombre",
     label: "Nombre",
-    field: val => helpers.primeraMayus(val.Nombre),
+    field: (val) => helpers.primeraMayus(val.Nombre),
     headerStyle: {
       fontWeight: "bold",
       fontSize: "15px",
@@ -185,6 +231,10 @@ const columns = [
 
 function limpiar() {
   nombre.value = "";
+}
+//Ir a otra pagina con boton id
+function goRed_lote(Red_loteid) {
+  router.push(`/Red_Lote/${Red_loteid}`);
 }
 
 async function agregarRed_conocimiento() {
@@ -289,9 +339,6 @@ async function getInfo() {
   }
 }
 
-
-
-
 // Inactivar red_conocimiento
 async function inactivarredconocimiento(id) {
   try {
@@ -363,7 +410,6 @@ const cancelShow = () => {
   }
 };
 
-
 const handleFileChange = (event) => {
   const file = event.target.files[0];
   const reader = new FileReader();
@@ -380,9 +426,7 @@ const handleFileChange = (event) => {
 const eliminarImagen = () => {
   imageUrl.value = "";
 };
-
 </script>
-
 
 <style scoped>
 /* Estilos generales */

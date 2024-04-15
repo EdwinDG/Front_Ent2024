@@ -10,13 +10,13 @@
       <div class="container2" v-else>
         <div class="tabladiv">
           <div class="header">
-            <h5 class="title">Red Lote</h5>
+            <h5 class="title">Proceso</h5>
             <button class="btnag" @click="agregar()">
               <h5>Agregar</h5>
               <i class="fa-regular fa-square-plus"></i>
             </button>
           </div>
-
+          <!-- Tabla  verdadera -->
           <q-table
             class="tabla"
             flat
@@ -49,22 +49,23 @@
 
             <template v-slot:body-cell-opciones="props">
               <q-td class="opciones" :props="props">
-                <button class="btnedit" @click="editarficha(props.row._id)">
+                <button class="btnedit" @click="editarproceso(props.row._id)">
                   <i class="fa-solid fa-pen-to-square"></i>
                 </button>
                 <button
                   class="btninac"
-                  @click="inactivarficha(props.row._id)"
+                  @click="inactivarproceso(props.row._id)"
                   v-if="props.row.Estado == 1"
                 >
                   <i class="fa-solid fa-xmark" style="color: #ff0000"></i>
                 </button>
-                <button
-                  class="btnact"
-                  @click="activarficha(props.row._id)"
-                  v-else
-                >
+                <button class="btnact" @click="activarproceso(props.row._id)" v-else>
                   <i class="fa-solid fa-check" style="color: #006110"></i>
+                </button>
+                <!-- Ir a otra pagina con boton id  -->
+                <button class="btnedit" @click="goContrato(props.row._id)">
+                  Red-Lote
+                  <i class="fa-solid fa-arrow-right"></i>
                 </button>
               </q-td>
             </template>
@@ -97,22 +98,43 @@
               <q-card-section>
                 <q-form class="q-gutter-md">
                   <div class="contenedor_modal">
-
                     <div class="modal_derecho">
-                      <div class="rectangulo">Informacion de fichas</div>
+                      <div class="rectangulo">Informacion de  Proceo</div>
                       <div class="container_input2">
                         <div class="container_input3">
-                          <label class="label-input" for="">Codigo:</label>
+                          <label class="label-input" for="">Coiigo:</label>
                           <q-input
                             color="green"
                             filled
-                            v-model="codigodeficha"
+                            v-model="Codigo"
+                            class="modal_input2"
+                            type="text"
+                            lazy-rules
+                            :rules="[
+                              (val) =>
+                                !!val ||
+                                'Por favor ingrese el nombre del proceso',
+                            ]"
+                          >
+                            <template v-slot:prepend>
+                              <i class="fa-solid fa-users-line" aria-hidden="true"></i>
+                            </template>
+                          </q-input>
+                        </div>
+
+                           <div class="container_input3">
+                          <label class="label-input" for="">Presupuesto Asignado:</label>
+                          <q-input
+                            color="green"
+                            filled
+                            v-model="PresupuestoAsignado"
+
                             class="modal_input2"
                             type="number"
                             lazy-rules
                             :rules="[
                               (val) =>
-                                !!val || 'Por favor ingrese el codigo de ficha',
+                                !!val || 'Por favor ingrese el Codigo de ficha',
                             ]"
                           >
                             <template v-slot:prepend>
@@ -120,148 +142,48 @@
                             </template>
                           </q-input>
                         </div>
-
-                        <div class="container_input3">
-                          <label class="label-input" for="">Nombre:</label>
+                           <div class="container_input3">
+                          <label class="label-input" for="">Presupuesto Disponible:</label>
                           <q-input
                             color="green"
                             filled
-                            v-model="nombre"
+                            v-model="PresupuestoDisponible"
                             class="modal_input2"
-                            type="text"
+                            type="number"
                             lazy-rules
                             :rules="[
                               (val) =>
-                                !!val ||
-                                'Por favor ingrese el nombre de la ficha',
+                                !!val || 'Por favor ingrese el Codigo de ficha',
                             ]"
                           >
                             <template v-slot:prepend>
-                              <i
-                                class="fa-solid fa-users-line"
-                                aria-hidden="true"
-                              ></i>
+                              <i class="fa fa-code" aria-hidden="true"></i>
                             </template>
                           </q-input>
                         </div>
-
-                        <div class="container_input3">
-                          <label class="label-input" for=""
-                            >Nivel de fomacion:</label
-                          >
-                          <q-select
-                            color="green"
-                            filled
-                            v-model="niveldeformacion"
-                            :options="opcionesNivelDeFormacionArray"
-                            class="modal_input2"
-                            type="text"
-                            lazy-rules
-                            :rules="[
-                              (val) =>
-                                !!val ||
-                                'Por favor ingrese el nivel de formacion.',
-                            ]"
-                            hide-bottom-space
-                          >
-                            <template v-slot:prepend>
-                              <i class="fa fa-list" aria-hidden="true"></i>
-                            </template>
-                          </q-select>
+                        <div class="contenedor_botones">
+                          <q-btn
+                            flat
+                            v-close-popup
+                            class="btnagregar1"
+                            type="reset"
+                            label="Cancelar"
+                          />
+                          <q-btn
+                            label="Agregar"
+                            class="btnagregar2"
+                            @click="agregarproceso()"
+                            v-if="btnagregar"
+                            type="submit"
+                          />
+                          <q-btn
+                            label="Aceptar"
+                            class="btnagregar2"
+                            @click="agregarproceso()"
+                            v-if="btnaceptar"
+                            type="submit"
+                          />
                         </div>
-
-                        <div class="container_input3">
-                          <label class="label-input" for=""
-                            >Fecha de inicio:</label
-                          >
-                          <q-input
-                            color="green"
-                            filled
-                            v-model="fechainicio"
-                            class="modal_input2"
-                            type="date"
-                            lazy-rules
-                            :rules="[
-                              (val) =>
-                                !!val || 'Por favor ingrese la fecha de inicio',
-                            ]"
-                          >
-                            <template v-slot:prepend>
-                              <i class="fa fa-calendar" aria-hidden="true"></i>
-                            </template>
-                          </q-input>
-                        </div>
-                      </div>
-
-                      <div class="container_input4">
-                        <label class="label-input2" for="">Area:</label>
-                        <q-select
-                          color="green"
-                          filled
-                          v-model="Area_Id"
-                          :options="options"
-                          class="modal_input3"
-                          type="text"
-                          lazy-rules
-                          :rules="[
-                            (val) =>
-                              !!val || 'Por favor ingrese el area de ficha',
-                          ]"
-                          hide-bottom-space
-                        >
-                          <template v-slot:prepend>
-                            <i class="fa fa-list" aria-hidden="true"></i>
-                          </template>
-                        </q-select>
-                      </div>
-
-                      <div class="container_input2">
-                        <div class="container_input3">
-                          <label class="label-input3" for=""
-                            >Fecha de finalizacion:</label
-                          >
-                          <q-input
-                            color="green"
-                            filled
-                            v-model="fechafin"
-                            class="modal_input2"
-                            type="date"
-                            lazy-rules
-                            :rules="[
-                              (val) =>
-                                !!val ||
-                                'Por favor ingrese la fecha de finalizacion.',
-                            ]"
-                          >
-                            <template v-slot:prepend>
-                              <i class="fa fa-calendar" aria-hidden="true"></i>
-                            </template>
-                          </q-input>
-                        </div>
-                      </div>
-
-                      <div class="contenedor_botones">
-                        <q-btn
-                          flat
-                          v-close-popup
-                          class="btnagregar1"
-                          type="reset"
-                          label="Cancelar"
-                        />
-                        <q-btn
-                          label="Agregar"
-                          class="btnagregar2"
-                          @click="agregarficha()"
-                          v-if="btnagregar"
-                          type="submit"
-                        />
-                        <q-btn
-                          label="Aceptar"
-                          class="btnagregar2"
-                          @click="agregarficha()"
-                          v-if="btnaceptar"
-                          type="submit"
-                        />
                       </div>
                     </div>
                   </div>
@@ -276,64 +198,55 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
-import { format } from "date-fns";
-import { usefichastore } from "../stores/Fichas.js";
-import { useareastore } from "../stores/Area.js";
-import helpers from "../helpers/General.js"
-const fichastore = usefichastore();
-const areastore = useareastore();
+import { useprocesostores } from "../stores/Proceso.js";
+import helpers from "../helpers/General.js";
+//Ir a otra pagina con boton id
+import { useRouter } from "vue-router";
+const router = useRouter();
+
+const proecesostores = useprocesostores();
 const options = ref([]);
 const $q = useQuasar();
 const fileInput = ref(null);
 const imageUrl = ref("");
-
+let Codigo = ref("");
+let PresupuestoAsignado = ref("");
+let PresupuestoDisponible = ref("");
+let proceso = ref("");
 let notification;
-let codigodeficha = ref("");
-let nombre = ref("");
-let niveldeformacion = ref("");
-let fechainicio = ref("");
-let fechafin = ref("");
-let Area_Id = ref("");
+
 const filter = ref("");
-let text = ref("Agregar Ficha");
+let text = ref("Agregar Proceso");
 let btnaceptar = ref(false);
 let btnagregar = ref(true);
 let prompt = ref(false);
 const cargando = ref(false);
+
+onMounted(async () => {
+  getInfo();
+});
+
 function agregar() {
   prompt.value = true;
   xd.value = 0;
   limpiar();
   eliminarImagen();
-  text.value = "Agregar Ficha";
+  text.value = "Agregar Proceso";
   btnaceptar.value = false;
   btnagregar.value = true;
 }
 
-/* const niveldeformacion = ref(null); */
-const opcionesNivelDeFormacionArray = ref([
-  { label: "Tecnico", value: "opcion1" },
-  { label: "Tecnologo", value: "opcion2" },
-  { label: "Auxiliar", value: "opcion3" },
-  { label: "Operario", value: "opcion4" },
-  { label: "Especialista", value: "opcion5" },
-]).value.map((opcion) => ({
-  label: opcion.label,
-  value: opcion.value,
-}));
-
 let rows = ref([]);
-let ficha = ref([]);
+let Proceso = ref([]);
 let xd = ref(0);
-/* let Area_Id = ref(""); */
+
 const columns = [
   {
-    name: "CodigoFicha",
-    label: "Codigo De Ficha",
-    field: "CodigoFicha",
+    name: "Codigo",
+    label: "Codigo",
+    field: "Codigo",
     sortable: true,
     headerStyle: {
       fontWeight: "bold",
@@ -342,9 +255,9 @@ const columns = [
     align: "center",
   },
   {
-    name: "Nombre",
-    label: "Nombre",
-    field: val=>helpers.primeraMayus(val.Nombre),
+    name: "PresupuestoAsignado",
+    label: "Presupuesto Asignado",
+    field: (val) => val.PresupuestoAsignado,
     headerStyle: {
       fontWeight: "bold",
       fontSize: "15px",
@@ -352,9 +265,9 @@ const columns = [
     align: "center",
   },
   {
-    name: "NivelFormacion",
-    label: "Nivel de formacion",
-    field: (val) => val.NivelFormacion.label,
+    name: "PresupuestoDisponible",
+    label: "Presupuesto disponible  ",
+    field: (val) => val.PresupuestoDisponible,
     headerStyle: {
       fontWeight: "bold",
       fontSize: "15px",
@@ -362,51 +275,6 @@ const columns = [
     align: "center",
   },
 
-  {
-    name: "FechaInicio",
-    label: "Fecha De Inicio",
-    field: "FechaInicio",
-    format: (val) => format(new Date(val), "yyyy-MM-dd"),
-    align: "center",
-    headerStyle: {
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
-    align: "center",
-  },
-  {
-    name: "FechaFin",
-    label: "Fecha De Fin",
-    field: "FechaFin",
-    format: (val) => format(new Date(val), "yyyy-MM-dd"),
-    align: "center",
-    headerStyle: {
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
-    align: "center",
-  },
-  {
-    name: "Area_Id",
-    label: "Area",
-    field: (row) => `${row.Area_Id?.Nombre}`,
-    align: "center",
-    headerStyle: {
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
-  },
-  {
-    name: "Estado",
-    label: "Estado",
-    field: "Estado",
-    format: (val) => (val ? "Activo" : "Inactivo"),
-    headerStyle: {
-      fontWeight: "bold",
-      fontSize: "15px",
-    },
-    align: "center",
-  },
   {
     name: "opciones",
     label: "Opciones",
@@ -419,39 +287,38 @@ const columns = [
     align: "center",
   },
 ];
+
 function limpiar() {
-  codigodeficha.value = "";
-  nombre.value = "";
-  niveldeformacion.value = "";
-  fechafin.value = "";
-  fechainicio.value = "";
-  Area_Id.value = "";
+  Codigo.value = "";
+  PresupuestoAsignado.value = "";
+  PresupuestoDisponible.value = "";
+}
+//Ir a otra pagina con boton id
+function goContrato(Contrato) {
+  router.push(`/Contrato/${Contrato}`);
 }
 
-async function agregarficha() {
+async function agregarproceso() {
   if (xd.value == 0) {
     try {
       showDefault();
-      await fichastore.postinfoficha({
-        CodigoFicha: codigodeficha.value,
-        Nombre: nombre.value,
-        NivelFormacion: niveldeformacion.value,
-        FechaInicio: fechainicio.value,
-        FechaFin: fechafin.value,
-        Area_Id: Area_Id._rawValue.value,
+      await proecesostores.postinfoproceso({
+        Codigo: Codigo.value,
+        PresupuestoDisponible: PresupuestoDisponible.value,
+        PresupuestoAsignado: PresupuestoAsignado.value,
       });
-      obtenerInfo();
+      getInfo();
       if (notification) {
         notification();
       }
       limpiar();
       $q.notify({
         spinner: false,
-        message: "Ficha Agregada",
+        message: "Proceso agregado Agregado",
         timeout: 2000,
         type: "positive",
       });
-      obtenerInfo();
+      getInfo();
       prompt.value = false;
     } catch (error) {
       if (notification) {
@@ -465,32 +332,29 @@ async function agregarficha() {
       });
     }
   } else {
-    let id = idficha.value;
+    let id = proceso.value;
     if (id) {
       try {
         showDefault();
-        await fichastore.puteditarficha(id, {
-          CodigoFicha: codigodeficha.value,
-          Nombre: nombre.value,
-          NivelFormacion: niveldeformacion.value,
-          FechaInicio: fechainicio.value,
-          FechaFin: fechafin.value,
-          Area_Id: Area_Id._rawValue.value,
+        await proecesostores.puteditarproceso(id, {
+          Codigo: Codigo.value,
+          PresupuestoDisponible: PresupuestoDisponible.value,
+          PresupuestoAsignado: PresupuestoAsignado.value,
         });
         btnagregar.value = true;
         btnaceptar.value = false;
-        text.value = "Agregar ficha";
+        text.value = "Agregar Proceso";
         if (notification) {
           notification();
         }
         limpiar();
         $q.notify({
           spinner: false,
-          message: "Ficha Actualizada",
+          message: "Proceso Acutalizado",
           timeout: 2000,
           type: "positive",
         });
-        obtenerInfo();
+        getInfo();
         prompt.value = false;
       } catch (error) {
         if (notification) {
@@ -507,41 +371,34 @@ async function agregarficha() {
   }
 }
 
-let idficha = ref("");
-async function editarficha(id) {
+
+
+async function editarproceso(id) {
   prompt.value = true;
-  obtenerarea();
   xd.value = 1;
-  const fichaseleccionada = ficha.value.find(
-    (transporte) => transporte._id === id
+  const procesoseleccionado = rows.value.find(
+    (editarproceso) => editarproceso._id === id
   );
-  if (fichaseleccionada) {
-    idficha.value = String(fichaseleccionada._id);
+  if (procesoseleccionado) {
+    proceso.value = String(procesoseleccionado._id);
     btnagregar.value = false;
     btnaceptar.value = true;
-    text.value = "Editar Ficha";
-    codigodeficha.value = fichaseleccionada.CodigoFicha;
-    nombre.value = fichaseleccionada.Nombre;
-    niveldeformacion.value = fichaseleccionada.NivelFormacion;
-    Area_Id.value = {
-      label: `${fichaseleccionada.Area_Id.Nombre}`,
-      value: String(fichaseleccionada.Area_Id._id),
-    };
-    fechafin.value = format(new Date(fichaseleccionada.FechaFin), "yyyy-MM-dd");
-    fechainicio.value = format(
-      new Date(fichaseleccionada.FechaInicio),
-      "yyyy-MM-dd"
-    );
+    text.value = "Editar Proceso";
+        Codigo.value,
+        PresupuestoDisponible.value,
+        PresupuestoAsignado.value,
+    console.log("Hola soy editar");
   }
 }
-async function obtenerInfo() {
+
+async function getInfo() {
   try {
     cargando.value = true;
-    const response = await fichastore.obtenerinfoficha();
-    console.log(response);
-    ficha.value = fichastore.fichas;
-    rows.value = fichastore.fichas;
-    obtenerarea();
+    console.log("a", proecesostores);
+    const response = await proecesostores.obtenerinfoproceso();
+    console.log("hola soy Proceso", response);
+
+    rows.value = proecesostores.Proceso;
   } catch (error) {
     console.log(error);
   } finally {
@@ -549,30 +406,15 @@ async function obtenerInfo() {
   }
 }
 
-async function obtenerarea() {
-  try {
-    await areastore.obtenerinfoarea();
-    options.value = areastore.area.map((area) => ({
-      label: `${area.Nombre} `,
-      value: String(area._id),
-    }));
-  } catch (error) {
-    console.log(error);
-  }
-}
-onMounted(async () => {
-  obtenerInfo();
-});
-
-// Inactivar ficha
-async function inactivarficha(id) {
+// Inactivar Proceso
+async function inactivarproceso(id) {
   try {
     showDefault();
-    await fichastore.putinactivarficha(id);
+    await proecesostores.putinactivarproceso(id);
     cancelShow();
-    greatMessage.value = "Ficha Inactiva";
+    greatMessage.value = "Proceso Inactiva";
     showGreat();
-    obtenerInfo();
+    getInfo();
   } catch (error) {
     cancelShow();
     badMessage.value = error.response.data.error.errors[0].msg;
@@ -580,15 +422,15 @@ async function inactivarficha(id) {
   }
 }
 
-// Activar ficha
-async function activarficha(id) {
+// Activar Proceso
+async function activarproceso(id) {
   try {
     showDefault();
-    await fichastore.putactivarficha(id);
+    await proecesostores.putactivarproceso(id);
     cancelShow();
-    greatMessage.value = "Ficha Activa";
+    greatMessage.value = "Proceso Activa";
     showGreat();
-    obtenerInfo();
+    getInfo();
   } catch (error) {
     cancelShow();
     badMessage.value = error.response.data.error.errors[0].msg;
@@ -635,9 +477,6 @@ const cancelShow = () => {
   }
 };
 
-const openFileExplorer = () => {
-  fileInput.value.click();
-};
 const handleFileChange = (event) => {
   const file = event.target.files[0];
   const reader = new FileReader();
@@ -883,9 +722,11 @@ i {
   font-weight: bold;
   cursor: pointer;
 }
+
 i {
   margin: 0;
 }
+
 .btninac,
 .btnact {
   font-size: 23px;

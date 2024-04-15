@@ -33,7 +33,7 @@
                 <button class="btnact" @click="activararea(props.row._id)" v-else>
                   <i class="fa-solid fa-check" style="color: #006110"></i>
                 </button>
-                <button class="btnedit" @click="goDisDependencia()">
+                <button class="btnedit" @click="goDisDependencia(props.row._id)">
                   <i class="fa-solid fa-arrow-right"></i>
                 </button>
               </q-td>

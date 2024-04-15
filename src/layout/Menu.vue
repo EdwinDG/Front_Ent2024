@@ -90,15 +90,18 @@
                             </q-item-section>
                         </div>
                     </router-link>
-                    <router-link v-if="checkAccess('Contrato')" to="/Contrato">
+                     <router-link
+                        v-if="checkAccess('Proceso')"
+                        to="./Proceso"
+                    >
                         <div class="div">
                             <q-item-section>
-                                <i class="fa-solid fa-file-contract"></i>
+                                <i class="fa-solid fa-diagram-project"></i>
                             </q-item-section>
 
                             <q-item-section>
                                 <h6 style="font-size: 15px; font-weight: 100">
-                                    Contrato
+                                    Proceso
                                 </h6>
                             </q-item-section>
                         </div>
@@ -381,6 +384,7 @@ const checkAccess = (ruta) => {
         Perfil: ["admin", "bodega", "instructor"],
         TablaHistorial: ["admin", "bodega", "instructor"],
         Red_conocimiento: [ "admin", "bodega", "instructor"],
+        Proceso: [ "admin", "bodega", "instructor"],
         Contrato: ["admin", "bodega", "instructor"],
     };
 
